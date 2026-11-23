@@ -1,16 +1,3 @@
-[![Latest Release](https://img.shields.io/github/v/release/community-shaders/skyrim-community-shaders)](https://github.com/community-shaders/skyrim-community-shaders/releases)
-[![License](https://img.shields.io/github/license/community-shaders/skyrim-community-shaders)](./COPYING.txt)
-[![Last Commit](https://img.shields.io/github/last-commit/community-shaders/skyrim-community-shaders)](https://github.com/community-shaders/skyrim-community-shaders/commits)
-[![Build Status](https://img.shields.io/github/actions/workflow/status/community-shaders/skyrim-community-shaders/release-build.yaml?event=release)](https://github.com/community-shaders/skyrim-community-shaders/actions)
-[![Discord](https://img.shields.io/discord/1080142797870485606?label=discord&logo=discord&color=5865F2)](https://discord.com/invite/nkrQybAsyy)
-[![Open Issues](https://img.shields.io/github/issues/community-shaders/skyrim-community-shaders)](https://github.com/community-shaders/skyrim-community-shaders/issues)
-[![Contributors](https://img.shields.io/github/contributors/community-shaders/skyrim-community-shaders)](https://github.com/community-shaders/skyrim-community-shaders/graphs/contributors)
-[![Stars](https://img.shields.io/github/stars/community-shaders/skyrim-community-shaders?style=social)](https://github.com/community-shaders/skyrim-community-shaders/stargazers)
-
-![CodeRabbit Pull Request Reviews](https://img.shields.io/coderabbit/prs/github/community-shaders/skyrim-community-shaders?utm_source=oss&utm_medium=github&utm_campaign=community-shaders%2Fskyrim-community-shaders&labelColor=171717&color=FF570A&link=https%3A%2F%2Fcoderabbit.ai&label=CodeRabbit+Reviews)
-
-[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/doodlum/skyrim-community-shaders)
-
 # Hold Shaders
 
 SKSE core plugin for advanced graphics in Skyrim, with the Modhold look as its default: a little darker than stock, softer highlights, slightly richer colour.
@@ -20,7 +7,7 @@ SKSE core plugin for advanced graphics in Skyrim, with the Modhold look as its d
 **Hold Shaders is a fork of [Bottled Shaders](https://github.com/InTheBottle/Bottled-Shaders) by Bottle, which is itself a fork of [Community Shaders](https://github.com/community-shaders/skyrim-community-shaders) by doodlum and the Community Shaders contributors.** The architecture, the shader pipeline, the feature framework and nearly all of the code come from those projects and are their authors' work. Their copyrights and authorship are kept unchanged; see the upstream [contributors page](https://github.com/community-shaders/skyrim-community-shaders/graphs/contributors).
 
 - What we changed, and when: [MODIFIED.md](./MODIFIED.md).
-- Licence: the same as upstream, GPL-3.0 with the Modding Exception and the GPL-3.0 Linking Exception (see [COPYING](./COPYING) and [EXCEPTIONS.md](./EXCEPTIONS.md)). The full source of every Hold Shaders build is in this repository: https://github.com/SethSaidThat/Hold-Shaders
+- Licence: the same as upstream, GPL-3.0 with the Modding Exception and the GPL-3.0 Linking Exception (see [COPYING.txt](./COPYING.txt) and [EXCEPTIONS.md](./EXCEPTIONS.md)). The full source of every Hold Shaders build is in this repository: https://github.com/SethSaidThat/Hold-Shaders
 - Runtime identity (DLL name, `CommunityShaders` folders and settings files, the exported API) is kept as upstream on purpose, so Hold Shaders is a drop-in replacement and existing settings, presets and add-on features keep working. Install Hold Shaders *or* Community Shaders / Bottled Shaders, not two at once.
 - Neither the Community Shaders logo nor the Bottled Shaders logo is used or shipped; Hold Shaders draws its own mark.
 - Support: please don't ask the Community Shaders or Bottled Shaders teams about Hold Shaders. Ask on its Modhold page instead.

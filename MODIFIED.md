@@ -20,5 +20,6 @@ GNU General Public License v3: it says what was changed, by whom, and when.
 - Licences for the AMD FidelityFX runtime DLLs and the three icon fonts built into the DLL now ship in `SKSE/Plugins/CommunityShaders/Licenses` (THIRD_PARTY.md lists them).
 - The credits line ends with the no-warranty notice and the source link.
 - GitHub release and pull-request build names say Hold Shaders.
+- README: the upstream badges (they link the upstream repository, issues and Discord) are removed so Hold Shaders users are not sent to the upstream teams; the licence link points at COPYING.txt.
 - Added the "Hold Shaders" Baseline preset pack: its colour grading (Post Processing, Color Grading and Tone Mapping)
   is a little darker than stock, with softer highlights and slightly richer colour.
