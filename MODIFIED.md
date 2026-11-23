@@ -19,5 +19,6 @@ GNU General Public License v3: it says what was changed, by whom, and when.
 - The upstream Nexus upload workflow and the Discord notification workflow are removed (and the Nexus dry-run job in release-build.yaml), so nothing posts to Nexus or an upstream Discord from this fork.
 - Licences for the AMD FidelityFX runtime DLLs and the three icon fonts built into the DLL now ship in `SKSE/Plugins/CommunityShaders/Licenses` (THIRD_PARTY.md lists them).
 - The credits line ends with the no-warranty notice and the source link.
+- GitHub release and pull-request build names say Hold Shaders.
 - Added the "Hold Shaders" Baseline preset pack: its colour grading (Post Processing, Color Grading and Tone Mapping)
   is a little darker than stock, with softer highlights and slightly richer colour.
