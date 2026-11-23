@@ -75,7 +75,7 @@ namespace
 	}
 
 	// Hold Shaders: the mod links its Modhold page from its menu, asking before it opens the browser.
-	constexpr const char* kModholdPageUrl = "https://modholdmods.com/m/MODHOLD_ID_PENDING";
+	constexpr const char* kModholdPageUrl = "https://modholdmods.com/m/1522";
 	constexpr const char* kModholdAuthorUrl = "https://modholdmods.com/u/SethSaidThat";
 	bool showModholdLinks = false;
 
