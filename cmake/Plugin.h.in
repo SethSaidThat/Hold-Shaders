@@ -26,7 +26,8 @@ namespace Plugin
 	inline constexpr auto CREDITS =
 		"Hold Shaders is a fork of Bottled Shaders by Bottle, which is a fork of Community Shaders "
 		"by doodlum and the Community Shaders contributors. Their code and copyrights are kept. "
-		"GPL-3.0 with the Modding and Linking Exceptions. Changes by SethSaidThat for Modhold."sv;
+		"GPL-3.0 with the Modding and Linking Exceptions. Changes by SethSaidThat for Modhold. "
+		"No warranty. Source: https://github.com/SethSaidThat/Hold-Shaders"sv;
 
 	/// Full git describe string, e.g. "v1.4.11", "v1.4.11-3-gabcdef1", "v1.4.11-3-gabcdef1-dirty".
 	/// Matches "v{VERSION}" exactly on a clean tagged release build.

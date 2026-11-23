@@ -190,21 +190,3 @@ jobs:
                   replacesArtifacts: true
                   removeArtifacts: true
                   allowUpdates: true
-
-    nexus-dry-run:
-        # Runs only on publish, independently of the build jobs (which are
-        # skipped on publish). Artifacts were already built and attached to the
-        # release when its draft was created, and nexus-upload downloads them
-        # from the release assets — so there is nothing to wait on and no rebuild.
-        # Stable tags only (no '-' in the tag name).
-        name: Nexus Upload (dry run)
-        if: >
-            github.event_name == 'release' &&
-            github.event.action == 'published' &&
-            !contains(github.event.release.tag_name, '-')
-        uses: ./.github/workflows/nexus-upload.yaml
-        with:
-            tag: ${{ github.event.release.tag_name }}
-            dry_run: "true"
-        secrets:
-            UNEX_APIKEY: ${{ secrets.UNEX_APIKEY }}
