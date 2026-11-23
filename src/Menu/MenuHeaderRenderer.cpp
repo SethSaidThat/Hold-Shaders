@@ -74,6 +74,40 @@ namespace
 		return metrics;
 	}
 
+	// Hold Shaders: the mod links its Modhold page from its menu, asking before it opens the browser.
+	constexpr const char* kModholdPageUrl = "https://modholdmods.com/m/MODHOLD_ID_PENDING";
+	constexpr const char* kModholdAuthorUrl = "https://modholdmods.com/u/SethSaidThat";
+	bool showModholdLinks = false;
+
+	/** @brief Draws the "Open Modhold?" popup while requested; each choice opens the browser only once picked. */
+	void DrawModholdLinksPopup()
+	{
+		if (!showModholdLinks)
+			return;
+		const auto title = std::format("{}###HoldShadersModholdLinks", T("menu.modhold.title", "Open Modhold?"));
+		ImGui::OpenPopup(title.c_str());
+		if (auto popup = Util::CenteredPopupModal(title.c_str(), &showModholdLinks)) {
+			ImGui::TextWrapped("%s", T("menu.modhold.message", "This opens Modhold in your web browser."));
+			ImGui::Spacing();
+			ImGui::Separator();
+			ImGui::Spacing();
+			const auto choice = [](const char* a_label, const char* a_url) {
+				if (!Util::Button(a_label))
+					return;
+				if (a_url)
+					ShellExecuteA(nullptr, "open", a_url, nullptr, nullptr, SW_SHOWNORMAL);
+				showModholdLinks = false;
+				ImGui::CloseCurrentPopup();
+			};
+			choice(T("menu.modhold.page", "Hold Shaders page"), kModholdPageUrl);
+			ImGui::SetItemDefaultFocus();
+			ImGui::SameLine();
+			choice(T("menu.modhold.author", "SethSaidThat on Modhold"), kModholdAuthorUrl);
+			ImGui::SameLine();
+			choice(T("ui.cancel", "Cancel"), nullptr);
+		}
+	}
+
 	float IconLabelButtonWidth(const char* label)
 	{
 		const auto& style = ImGui::GetStyle();
@@ -131,6 +165,8 @@ void MenuHeaderRenderer::RenderHeader(bool isDocked)
 	const char* saveLabel = T("menu.save_settings", "Save Settings");
 	const char* revertLabel = T("menu.revert_settings", "Revert");
 	const char* clearCacheLabel = T("menu.clear_shader_cache", "Clear Shader Cache");
+	const char* modholdLabel = T("menu.modhold.button", "Modhold");
+	const float modholdWidth = ImGui::CalcTextSize(modholdLabel, nullptr, true).x + style.FramePadding.x * 2.0f;
 	const float dotRadius = ImGui::GetFontSize() * kUnsavedDotRatio;
 	const float unsavedWidth = dotRadius * 2.0f + style.ItemInnerSpacing.x + ImGui::CalcTextSize(unsavedLabel).x;
 	const float groupGap = style.ItemSpacing.x * kCommandGroupGapRatio;
@@ -138,7 +174,8 @@ void MenuHeaderRenderer::RenderHeader(bool isDocked)
 	const float commandsWidth = (dirty ? unsavedWidth + style.ItemSpacing.x : 0.0f) +
 	                            IconLabelButtonWidth(saveLabel) + style.ItemSpacing.x +
 	                            IconLabelButtonWidth(revertLabel) + groupGap +
-	                            IconLabelButtonWidth(clearCacheLabel);
+	                            IconLabelButtonWidth(clearCacheLabel) + groupGap +
+	                            modholdWidth;
 
 	const float titleRight = rowOrigin.x + title.width + (isDocked ? 0.0f : groupGap);
 	const bool commandsInline = rightEdge - commandsWidth >= titleRight;
@@ -203,6 +240,13 @@ void MenuHeaderRenderer::RenderHeader(bool isDocked)
 							  "The Disk Cache is a collection of compiled shaders on disk. "
 							  "Clearing will mean that shaders are recompiled only when the game re-encounters them."));
 	}
+
+	place(modholdWidth, groupGap);
+	if (Util::Button(modholdLabel))
+		showModholdLinks = true;
+	if (auto _tt = Util::HoverTooltipWrapper())
+		ImGui::Text("%s", T("menu.modhold.tooltip", "Open the Hold Shaders page or SethSaidThat's page on Modhold."));
+	DrawModholdLinksPopup();
 
 	const float endY = isDocked ? ImGui::GetCursorScreenPos().y : ImMax(ImGui::GetCursorScreenPos().y, belowTitle);
 	ImGui::SetCursorScreenPos(ImVec2(rowOrigin.x, endY));
@@ -274,15 +318,27 @@ void MenuHeaderRenderer::RenderStatusBar()
 		const char* key;
 		const char* action;
 	};
-	const Hint hints[] = {
+	const Hint keyboardHints[] = {
 		{ "Ctrl+S", T("menu.status.hint_save", "Save") },
 		{ "Ctrl+F", T("menu.status.hint_search", "Search") },
 		{ "Esc", T("menu.status.hint_close", "Close") },
 	};
+	// Hold Shaders: once the controller is used, the hints show its buttons.
+	const Hint gamepadHints[] = {
+		{ "D-pad/LS", T("menu.status.hint_pad_move", "Move") },
+		{ "A", T("menu.status.hint_pad_select", "Select") },
+		{ "B", T("menu.status.hint_pad_back", "Back") },
+		{ "LB/RB", T("menu.status.hint_pad_page", "Page") },
+		{ "RS", T("menu.status.hint_pad_scroll", "Scroll") },
+		{ "LS+RS", T("menu.status.hint_pad_close", "Close") },
+	};
+	const bool gamepad = menu->IsUsingGamepad();
+	const Hint* hints = gamepad ? gamepadHints : keyboardHints;
+	const size_t hintCount = gamepad ? std::size(gamepadHints) : std::size(keyboardHints);
 	const float hintGap = style.ItemSpacing.x * kCommandGroupGapRatio;
 	float hintsWidth = 0.0f;
-	for (const auto& hint : hints)
-		hintsWidth += ImGui::CalcTextSize(hint.key).x + style.ItemInnerSpacing.x + ImGui::CalcTextSize(hint.action).x + hintGap;
+	for (size_t i = 0; i < hintCount; ++i)
+		hintsWidth += ImGui::CalcTextSize(hints[i].key).x + style.ItemInnerSpacing.x + ImGui::CalcTextSize(hints[i].action).x + hintGap;
 	hintsWidth -= hintGap;
 
 	const float hintsX = rowStartX + fullWidth - hintsWidth;
@@ -291,7 +347,7 @@ void MenuHeaderRenderer::RenderStatusBar()
 
 	ImGui::SameLine();
 	ImGui::SetCursorScreenPos(ImVec2(hintsX, ImGui::GetCursorScreenPos().y));
-	for (size_t i = 0; i < std::size(hints); ++i) {
+	for (size_t i = 0; i < hintCount; ++i) {
 		if (i > 0)
 			ImGui::SameLine(0.0f, hintGap);
 		ImGui::TextUnformatted(hints[i].key);

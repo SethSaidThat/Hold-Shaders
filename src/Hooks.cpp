@@ -762,13 +762,7 @@ struct BSInputDeviceManager_PollInputDevices
 					menu->RecordDirectInputWheelDelta(mouse->GetRuntimeData().dInputNextState.z);
 			}
 			menu->ProcessInputEvents(a_events);
-
-			if (*a_events) {
-				if (auto device = (*a_events)->GetDevice()) {
-					// Block all devices except gamepad when menu is open
-					blockedDevice = (device != RE::INPUT_DEVICES::INPUT_DEVICE::kGamepad);
-				}
-			}
+			// Hold Shaders: the controller drives the menu, so like the keyboard and mouse it is kept from the game while the menu is open.
 		}
 
 		if (a_events && menu->IsRebindingToggleKey()) {

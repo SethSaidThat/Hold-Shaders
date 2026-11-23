@@ -208,6 +208,8 @@ public:
 	 * @return True when a widget claimed the Escape press being released.
 	 */
 	bool TakeConsumedEscape() { return std::exchange(escapeConsumed, false); }
+	/** @brief Hold Shaders: true while the controller is the last input used in the menu, so hints show its buttons. */
+	bool IsUsingGamepad() const { return usingGamepad; }
 	/**
 	 * @brief Builds a deterministic string signature from current font configuration.
 	 * @param baseFontSize The base pixel size before per-role scaling.
@@ -564,7 +566,7 @@ public:
 			thumbstickY(0.0f) {}
 
 		explicit KeyEvent(const RE::ThumbstickEvent* a_event) :
-			keyCode(0),  // For thumbstick events, keyCode/value are replaced by x/y floats
+			keyCode(a_event->GetIDCode()),  // Which stick (kLeftStick / kRightStick); its position is in x/y below
 			device(a_event->GetDevice()),
 			eventType(a_event->GetEventType()),
 			value(0),
@@ -679,5 +681,23 @@ private:
 	void addToEventQueue(KeyEvent e);
 	void ProcessInputEventQueue();
 	bool IsCapturingHotkeyInput() const;
+	/**
+	 * @brief Runs the Escape release: closes the screenshot lightbox, leaves editor preview, closes an editor,
+	 * or closes this menu, in that order. Shared by the Escape key and the controller's B button.
+	 * @param a_effects11EditorToggled True when an Escape-bound Effects11 editor hotkey already acted on this release.
+	 */
+	void HandleEscapeReleased(bool a_effects11EditorToggled);
+
+	// Hold Shaders: controller support for the menu.
+	/** @brief Feeds one controller button or stick event to ImGui and to the menu's own controller actions. */
+	void ProcessGamepadEvent(const KeyEvent& a_event);
+	/** @brief Opens or closes the menu from the controller (both sticks pressed in), as the toggle key does. */
+	void ToggleFromController();
+	bool usingGamepad = false;
+	bool gamepadLeftThumbHeld = false;
+	bool gamepadRightThumbHeld = false;
+	/// Held time at which a held LB / RB steps the page again.
+	float gamepadPageRepeatAt = 0.0f;
+
 	winrt::com_ptr<IDXGIAdapter3> dxgiAdapter3;
 };

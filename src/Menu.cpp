@@ -1304,6 +1304,12 @@ void Menu::ProcessInputEventQueue()
 				toggleKeyRebind = ToggleKeyRebind::kOff;
 			}
 		}
+		if (event.device == RE::INPUT_DEVICE::kGamepad) {
+			ProcessGamepadEvent(event);
+			continue;
+		}
+		if (event.IsPressed())
+			usingGamepad = false;  // a key or mouse button: hints go back to the keyboard ones
 		if (event.device == RE::INPUT_DEVICE::kMouse) {
 			logger::trace("Detect mouse scan code {} value {} pressed: {}", event.keyCode, event.value, event.IsPressed());
 			auto* ew = EditorWindow::GetSingleton();
@@ -1490,34 +1496,8 @@ void Menu::ProcessInputEventQueue()
 				}
 
 				// Handle ESC key for menu and editor window
-				auto* editorWindow = EditorWindow::GetSingleton();
-				const bool escapeHandledByPopup = key == VK_ESCAPE && Util::ConsumeEscapeHandledByPopup();
-				if (escapeHandledByPopup)
-					suppressNextEscape = false;
-				// An Escape-bound Effects11 editor hotkey already toggled the editor this release
-				if (key == VK_ESCAPE && !escapeHandledByPopup && !effects11EditorToggled) {
-					if (PresetsPageRenderer::CloseLightboxIfOpen()) {
-						// Screenshot lightbox takes priority over closing the menu.
-					} else if (editorWindow && editorWindow->IsInPreviewMode()) {
-						editorWindow->ExitPreviewMode();
-					} else if (editorWindow && editorWindow->open) {
-						// Both guards consume one-shot flags, so evaluate each unconditionally.
-						auto& hostedEffects11Editor = Effects11Editor::GetSingleton();
-						const bool editorHandlesEscape = editorWindow->ShouldHandleEscapeKey();
-						const bool effects11Allows = !hostedEffects11Editor.IsOpen() || hostedEffects11Editor.ShouldHandleEscapeKey();
-						if (editorHandlesEscape && effects11Allows)
-							editorWindow->open = false;
-					} else if (auto& effects11Editor = Effects11Editor::GetSingleton(); effects11Editor.IsOpen()) {
-						if (effects11Editor.ShouldHandleEscapeKey())
-							effects11Editor.Close();
-					} else if (open && (!editorWindow || !editorWindow->open)) {
-						const bool escapeClaimed = TakeConsumedEscape();
-						if (suppressNextEscape)
-							suppressNextEscape = false;
-						else if (!escapeClaimed)
-							Close();
-					}
-				}
+				if (key == VK_ESCAPE)
+					HandleEscapeReleased(effects11EditorToggled);
 			} else if (event.IsDown() && !wasCapturingHotkey) {
 				// Fire combo hotkeys on the key-down transition so they respond on
 				// press rather than release. IsDown() (not IsPressed()) ensures we
@@ -1585,6 +1565,176 @@ void Menu::ProcessInputEventQueue()
 			io.ClearInputKeys();
 			io.ClearInputMouse();
 		}
+	}
+}
+
+void Menu::HandleEscapeReleased(bool a_effects11EditorToggled)
+{
+	auto* editorWindow = EditorWindow::GetSingleton();
+	const bool escapeHandledByPopup = Util::ConsumeEscapeHandledByPopup();
+	if (escapeHandledByPopup)
+		suppressNextEscape = false;
+	// An Escape-bound Effects11 editor hotkey already toggled the editor this release
+	if (escapeHandledByPopup || a_effects11EditorToggled)
+		return;
+	if (PresetsPageRenderer::CloseLightboxIfOpen()) {
+		// Screenshot lightbox takes priority over closing the menu.
+	} else if (editorWindow && editorWindow->IsInPreviewMode()) {
+		editorWindow->ExitPreviewMode();
+	} else if (editorWindow && editorWindow->open) {
+		// Both guards consume one-shot flags, so evaluate each unconditionally.
+		auto& hostedEffects11Editor = Effects11Editor::GetSingleton();
+		const bool editorHandlesEscape = editorWindow->ShouldHandleEscapeKey();
+		const bool effects11Allows = !hostedEffects11Editor.IsOpen() || hostedEffects11Editor.ShouldHandleEscapeKey();
+		if (editorHandlesEscape && effects11Allows)
+			editorWindow->open = false;
+	} else if (auto& effects11Editor = Effects11Editor::GetSingleton(); effects11Editor.IsOpen()) {
+		if (effects11Editor.ShouldHandleEscapeKey())
+			effects11Editor.Close();
+	} else if (open && (!editorWindow || !editorWindow->open)) {
+		const bool escapeClaimed = TakeConsumedEscape();
+		if (suppressNextEscape)
+			suppressNextEscape = false;
+		else if (!escapeClaimed)
+			Close();
+	}
+}
+
+namespace
+{
+	/** @brief The ImGui key for a controller button the menu passes straight to ImGui, else ImGuiKey_None. */
+	ImGuiKey GamepadButtonToImGuiKey(std::uint32_t a_code)
+	{
+		using Key = RE::BSWin32GamepadDevice::Key;
+		switch (a_code) {
+		case Key::kUp:
+			return ImGuiKey_GamepadDpadUp;
+		case Key::kDown:
+			return ImGuiKey_GamepadDpadDown;
+		case Key::kLeft:
+			return ImGuiKey_GamepadDpadLeft;
+		case Key::kRight:
+			return ImGuiKey_GamepadDpadRight;
+		case Key::kA:
+			return ImGuiKey_GamepadFaceDown;
+		case Key::kX:
+			return ImGuiKey_GamepadFaceLeft;
+		case Key::kY:
+			return ImGuiKey_GamepadFaceUp;
+		case Key::kStart:
+			return ImGuiKey_GamepadStart;
+		case Key::kBack:
+			return ImGuiKey_GamepadBack;
+		case Key::kLeftTrigger:
+			return ImGuiKey_GamepadL1;  // held: adjust values slower
+		case Key::kRightTrigger:
+			return ImGuiKey_GamepadR1;  // held: adjust values faster
+		default:
+			return ImGuiKey_None;
+		}
+	}
+
+	constexpr float kGamepadStickDeadZone = 0.35f;
+	constexpr float kGamepadPageRepeatDelay = 0.5f;
+	constexpr float kGamepadPageRepeatRate = 0.25f;
+}
+
+void Menu::ToggleFromController()
+{
+	if (SetupRenderer::ShouldShowFirstTimeSetup()) {
+		SetupRenderer::MarkFirstTimeSetupComplete();
+		return;
+	}
+	if (auto* editorWindow = EditorWindow::GetSingleton(); editorWindow && editorWindow->open)
+		return;
+	suppressNextEscape = false;
+	if (open) {
+		Close();
+	} else {
+		Open();
+		usingGamepad = true;
+		ImGui::GetIO().ClearInputKeys();  // the sticks pressed to open must not stay held in ImGui
+	}
+}
+
+void Menu::ProcessGamepadEvent(const KeyEvent& a_event)
+{
+	using Key = RE::BSWin32GamepadDevice::Key;
+	ImGuiIO& io = ImGui::GetIO();
+
+	if (a_event.eventType == RE::INPUT_EVENT_TYPE::kButton) {
+		// Both sticks pressed in together open and close the menu, so a controller alone can reach it.
+		const bool pressed = a_event.IsPressed();
+		if (a_event.keyCode == Key::kLeftThumb || a_event.keyCode == Key::kRightThumb) {
+			(a_event.keyCode == Key::kLeftThumb ? gamepadLeftThumbHeld : gamepadRightThumbHeld) = pressed;
+			if (a_event.IsDown() && gamepadLeftThumbHeld && gamepadRightThumbHeld)
+				ToggleFromController();
+			return;
+		}
+	}
+
+	// Everything else only drives an open Hold Shaders window (menu, first-time setup, editors).
+	if (!ShouldSwallowInput())
+		return;
+
+	if (a_event.eventType == RE::INPUT_EVENT_TYPE::kThumbstick) {
+		const bool deflected = std::abs(a_event.thumbstickX) > kGamepadStickDeadZone || std::abs(a_event.thumbstickY) > kGamepadStickDeadZone;
+		if (deflected)
+			usingGamepad = true;
+		if (a_event.keyCode == Key::kLeftStick) {
+			// The left stick moves like the D-pad; ImGui repeats a held direction.
+			io.AddKeyEvent(ImGuiKey_GamepadDpadLeft, a_event.thumbstickX < -kGamepadStickDeadZone);
+			io.AddKeyEvent(ImGuiKey_GamepadDpadRight, a_event.thumbstickX > kGamepadStickDeadZone);
+			io.AddKeyEvent(ImGuiKey_GamepadDpadDown, a_event.thumbstickY < -kGamepadStickDeadZone);
+			io.AddKeyEvent(ImGuiKey_GamepadDpadUp, a_event.thumbstickY > kGamepadStickDeadZone);
+		} else if (a_event.keyCode == Key::kRightStick) {
+			// The right stick scrolls: ImGui scrolls the focused window with its analog "left stick" keys.
+			const auto axis = [&io](ImGuiKey a_negative, ImGuiKey a_positive, float a_value) {
+				const bool negative = a_value < -kGamepadStickDeadZone;
+				const bool positive = a_value > kGamepadStickDeadZone;
+				io.AddKeyAnalogEvent(a_negative, negative, negative ? -a_value : 0.0f);
+				io.AddKeyAnalogEvent(a_positive, positive, positive ? a_value : 0.0f);
+			};
+			axis(ImGuiKey_GamepadLStickLeft, ImGuiKey_GamepadLStickRight, a_event.thumbstickX);
+			axis(ImGuiKey_GamepadLStickDown, ImGuiKey_GamepadLStickUp, a_event.thumbstickY);
+		}
+		return;
+	}
+
+	if (a_event.eventType != RE::INPUT_EVENT_TYPE::kButton)
+		return;
+
+	const bool pressed = a_event.IsPressed();
+	if (pressed)
+		usingGamepad = true;
+
+	switch (a_event.keyCode) {
+	case Key::kB:
+		// B is Escape everywhere in the menu: it leaves a field, a popup or an editor, then closes the menu.
+		io.AddKeyEvent(ImGuiKey_Escape, pressed);
+		if (!pressed)
+			HandleEscapeReleased(false);
+		return;
+	case Key::kLeftShoulder:
+	case Key::kRightShoulder:
+		{
+			// LB / RB step to the previous / next feature page; held, they keep stepping.
+			bool step = false;
+			if (a_event.IsDown()) {
+				gamepadPageRepeatAt = kGamepadPageRepeatDelay;
+				step = true;
+			} else if (pressed && a_event.heldDownSecs >= gamepadPageRepeatAt) {
+				gamepadPageRepeatAt += kGamepadPageRepeatRate;
+				step = true;
+			}
+			if (step && open && !io.WantTextInput && !ImGui::GetTopMostPopupModal())
+				pendingFeatureStep = a_event.keyCode == Key::kLeftShoulder ? -1 : 1;
+			return;
+		}
+	default:
+		if (const auto key = GamepadButtonToImGuiKey(a_event.keyCode); key != ImGuiKey_None)
+			io.AddKeyEvent(key, pressed);
+		return;
 	}
 }
 
