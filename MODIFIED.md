@@ -21,10 +21,11 @@ GNU General Public License v3: it says what was changed, by whom, and when.
 - The credits line ends with the no-warranty notice and the source link.
 - GitHub release and pull-request build names say Hold Shaders.
 - README: the upstream badges (they link the upstream repository, issues and Discord) are removed so Hold Shaders users are not sent to the upstream teams; the licence link points at COPYING.txt.
-- The menu works with a controller: D-pad or left stick moves, A selects, B backs out (it acts as Escape), LB / RB step
-  to the previous / next feature page, the right stick scrolls, the triggers adjust values slower / faster, and pressing
-  both sticks in opens and closes the menu. While the menu is open the controller no longer reaches the game. The status
-  bar shows the controller buttons once the controller is used.
+- The menu works with a controller: D-pad or left stick moves, A selects, B backs out of a field, popup or page and then
+  closes (it acts as Escape), LB / RB step to the previous / next feature page, the right stick scrolls, the triggers
+  adjust values slower / faster, and pressing both sticks in opens and closes the menu (that combo is kept from the game).
+  While the menu is open the controller no longer reaches the game. The status bar shows the controller buttons once the
+  controller is used.
 - The menu header has a Modhold button that asks first, then opens the Hold Shaders Modhold page or SethSaidThat's
   Modhold page in the browser.
 - Added the "Hold Shaders" Baseline preset pack: its colour grading (Post Processing, Color Grading and Tone Mapping)

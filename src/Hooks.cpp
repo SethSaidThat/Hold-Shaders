@@ -762,6 +762,12 @@ struct BSInputDeviceManager_PollInputDevices
 					menu->RecordDirectInputWheelDelta(mouse->GetRuntimeData().dInputNextState.z);
 			}
 			menu->ProcessInputEvents(a_events);
+			// Hold Shaders: both sticks pressed in open and close the menu; the game must not also see that combo.
+			if (menu->CheckControllerToggleCombo(a_events)) {
+				constexpr RE::InputEvent* const dummy[] = { nullptr };
+				func(a_dispatcher, dummy);
+				return;
+			}
 			// Hold Shaders: the controller drives the menu, so like the keyboard and mouse it is kept from the game while the menu is open.
 		}
 

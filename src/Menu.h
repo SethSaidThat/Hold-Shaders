@@ -211,6 +211,12 @@ public:
 	/** @brief Hold Shaders: true while the controller is the last input used in the menu, so hints show its buttons. */
 	bool IsUsingGamepad() const { return usingGamepad; }
 	/**
+	 * @brief Hold Shaders, input thread: watches for both sticks pressed in together, which opens or closes the menu.
+	 * @return True when this batch completes, holds or releases that combo, so the caller keeps it from the game:
+	 *         the game then never sees the second stick press (vanilla binds Sprint and Toggle POV there) or its release.
+	 */
+	bool CheckControllerToggleCombo(RE::InputEvent* const* a_events);
+	/**
 	 * @brief Builds a deterministic string signature from current font configuration.
 	 * @param baseFontSize The base pixel size before per-role scaling.
 	 * @return A signature string used to detect when fonts need reloading.
@@ -694,8 +700,14 @@ private:
 	/** @brief Opens or closes the menu from the controller (both sticks pressed in), as the toggle key does. */
 	void ToggleFromController();
 	bool usingGamepad = false;
-	bool gamepadLeftThumbHeld = false;
-	bool gamepadRightThumbHeld = false;
+	/// Set when B went down while ImGui had something to back out of; that B's release then closes nothing.
+	bool gamepadBackUsedByNav = false;
+	// Input thread only (CheckControllerToggleCombo).
+	bool comboLeftThumbHeld = false;
+	bool comboRightThumbHeld = false;
+	bool comboActive = false;
+	/// Set on the input thread by the combo, acted on by ProcessInputEventQueue on the render thread.
+	std::atomic<bool> controllerToggleRequested = false;
 	/// Held time at which a held LB / RB steps the page again.
 	float gamepadPageRepeatAt = 0.0f;
 

@@ -1291,6 +1291,8 @@ void Menu::ProcessInputEventQueue()
 	std::unique_lock<std::shared_mutex> mutex(_inputEventMutex);
 	ImGuiIO& io = ImGui::GetIO();
 	bool toggleKeyRebound = false;
+	if (controllerToggleRequested.exchange(false))
+		ToggleFromController();
 	for (auto& event : _keyEventQueue) {
 		if (event.eventType == RE::INPUT_EVENT_TYPE::kChar) {
 			if (!Util::Input::IsRejectedByNumericTextEntry(event.keyCode))
@@ -1634,9 +1636,47 @@ namespace
 		}
 	}
 
+	/**
+	 * @brief Whether ImGui's cancel (Escape / B) will be used by ImGui itself this press, mirroring the order of
+	 * ImGui 1.92's NavUpdateCancelRequest: an active item, the menu layer, a child window to leave, or an open popup.
+	 */
+	bool ImGuiWillUseCancel()
+	{
+		const ImGuiContext& g = *GImGui;
+		if (g.ActiveId != 0 || g.NavLayer != ImGuiNavLayer_Main)
+			return true;
+		if (const ImGuiWindow* nav = g.NavWindow; nav && nav != nav->RootWindow && !(nav->RootWindowForNav->Flags & ImGuiWindowFlags_Popup) && nav->RootWindowForNav->ParentWindow)
+			return true;
+		return g.OpenPopupStack.Size > 0;
+	}
+
 	constexpr float kGamepadStickDeadZone = 0.35f;
 	constexpr float kGamepadPageRepeatDelay = 0.5f;
 	constexpr float kGamepadPageRepeatRate = 0.25f;
+}
+
+bool Menu::CheckControllerToggleCombo(RE::InputEvent* const* a_events)
+{
+	using Key = RE::BSWin32GamepadDevice::Key;
+	bool keepFromGame = false;
+	for (auto it = a_events ? *a_events : nullptr; it; it = it->next) {
+		const auto* button = it->AsButtonEvent();
+		if (!button || button->GetDevice() != RE::INPUT_DEVICE::kGamepad)
+			continue;
+		const auto code = button->GetIDCode();
+		if (code != Key::kLeftThumb && code != Key::kRightThumb)
+			continue;
+		(code == Key::kLeftThumb ? comboLeftThumbHeld : comboRightThumbHeld) = button->IsPressed();
+		if (button->IsDown() && comboLeftThumbHeld && comboRightThumbHeld) {
+			comboActive = true;
+			controllerToggleRequested = true;
+		}
+		if (comboActive)
+			keepFromGame = true;
+		if (!comboLeftThumbHeld && !comboRightThumbHeld)
+			comboActive = false;
+	}
+	return keepFromGame;
 }
 
 void Menu::ToggleFromController()
@@ -1662,16 +1702,9 @@ void Menu::ProcessGamepadEvent(const KeyEvent& a_event)
 	using Key = RE::BSWin32GamepadDevice::Key;
 	ImGuiIO& io = ImGui::GetIO();
 
-	if (a_event.eventType == RE::INPUT_EVENT_TYPE::kButton) {
-		// Both sticks pressed in together open and close the menu, so a controller alone can reach it.
-		const bool pressed = a_event.IsPressed();
-		if (a_event.keyCode == Key::kLeftThumb || a_event.keyCode == Key::kRightThumb) {
-			(a_event.keyCode == Key::kLeftThumb ? gamepadLeftThumbHeld : gamepadRightThumbHeld) = pressed;
-			if (a_event.IsDown() && gamepadLeftThumbHeld && gamepadRightThumbHeld)
-				ToggleFromController();
-			return;
-		}
-	}
+	// The stick presses belong to the open/close combo (CheckControllerToggleCombo), never to ImGui.
+	if (a_event.eventType == RE::INPUT_EVENT_TYPE::kButton && (a_event.keyCode == Key::kLeftThumb || a_event.keyCode == Key::kRightThumb))
+		return;
 
 	// Everything else only drives an open Hold Shaders window (menu, first-time setup, editors).
 	if (!ShouldSwallowInput())
@@ -1710,10 +1743,20 @@ void Menu::ProcessGamepadEvent(const KeyEvent& a_event)
 
 	switch (a_event.keyCode) {
 	case Key::kB:
-		// B is Escape everywhere in the menu: it leaves a field, a popup or an editor, then closes the menu.
+		// B is Escape for ImGui: it leaves a field, a popup or a page first. Only a B that ImGui had nothing
+		// to back out of runs the Escape release, which closes a lightbox, an editor or the menu.
+		if (a_event.IsDown())
+			gamepadBackUsedByNav = ImGuiWillUseCancel();
 		io.AddKeyEvent(ImGuiKey_Escape, pressed);
-		if (!pressed)
-			HandleEscapeReleased(false);
+		if (!pressed) {
+			if (std::exchange(gamepadBackUsedByNav, false)) {
+				// Drop the claims this press left, so they don't swallow a later Escape.
+				Util::ConsumeEscapeHandledByPopup();
+				TakeConsumedEscape();
+			} else {
+				HandleEscapeReleased(false);
+			}
+		}
 		return;
 	case Key::kLeftShoulder:
 	case Key::kRightShoulder:
