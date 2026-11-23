@@ -30,3 +30,7 @@ GNU General Public License v3: it says what was changed, by whom, and when.
   Modhold page in the browser.
 - Added the "Hold Shaders" Baseline preset pack: its colour grading (Post Processing, Color Grading and Tone Mapping)
   is a little darker than stock, with softer highlights and slightly richer colour.
+- Lighter first launch (23 Nov 2026, after a player's desktop froze at the main menu on the first launch): the startup
+  shader compile uses half the logical CPU threads minus one (was all but two), background compiling a quarter of the
+  performance cores (was half), and the one-time Unified Water cache build a quarter of the threads, at most 4, at
+  below-normal priority (was all but four at normal priority). A player's own "Compiler Threads" settings still win.
