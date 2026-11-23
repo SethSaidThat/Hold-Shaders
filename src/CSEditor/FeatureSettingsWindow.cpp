@@ -88,7 +88,7 @@ namespace
 			T(TKEY("feature_boot_toggle_tooltip"),
 				"Toggle whether this feature loads when the game starts.\n"
 				"Restart required for changes to take effect.\n"
-				"Same as Disable at Boot in the main Bottled Shaders menu."))
+				"Same as Disable at Boot in the main Hold Shaders menu."))
 				.c_str());
 		return true;
 	}

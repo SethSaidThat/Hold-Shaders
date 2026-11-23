@@ -946,7 +946,7 @@ void Effects11Editor::DrawCategory(const std::string& a_category, const char* a_
 	if (exteriorOnly && IsInterior())
 		Util::Text::WrappedWarning("%s", T(TKEY("exterior_only_note"), "These values only apply outdoors."));
 	if (handedOff)
-		Util::Text::WrappedWarning("%s", T(TKEY("handed_off_note"), "This preset hands this feature to Bottled Shaders scene settings, so these values have no effect."));
+		Util::Text::WrappedWarning("%s", T(TKEY("handed_off_note"), "This preset hands this feature to Hold Shaders scene settings, so these values have no effect."));
 	ImGui::PopTextWrapPos();
 
 	if (!active && !handedOff) {
@@ -983,7 +983,7 @@ void Effects11Editor::DrawCategory(const std::string& a_category, const char* a_
 			globals::menu->MarkUnsavedChanges();
 		Util::AddTooltip(T(TKEY("rain_visibility_tip"),
 			"Exaggerates how much each drop differs from the scene behind it, so rain stands out more. 1 = physically based.\n"
-			"Saved with Community Shaders' Save Settings, not with the preset."));
+			"Saved with Hold Shaders' Save Settings, not with the preset."));
 	}
 
 	if (a_category == "ENVIRONMENT") {
@@ -992,7 +992,7 @@ void Effects11Editor::DrawCategory(const std::string& a_category, const char* a_
 		Util::AddTooltip(T(TKEY("pbr_color_pow_tip"),
 			"How much of the preset's ColorPow reaches the reflection colour of metallic PBR materials. 0 = metals keep their authored colours, 1 = same as every other material.\n"
 			"Other PBR materials always follow the preset's ColorPow.\n"
-			"Saved with Community Shaders' Save Settings, not with the preset."));
+			"Saved with Hold Shaders' Save Settings, not with the preset."));
 	}
 
 	if (isParticle)
@@ -1046,11 +1046,11 @@ void Effects11Editor::DrawCategoryWeatherToggle(const std::string& a_category)
 
 void Effects11Editor::DrawParticleOwnershipToggle()
 {
-	if (ImGui::Checkbox(T(TKEY("cs_particles"), "Let Community Shaders handle particles"), &globals::features::effects11.settings.IgnorePresetParticles))
+	if (ImGui::Checkbox(T(TKEY("cs_particles"), "Let Hold Shaders handle particles"), &globals::features::effects11.settings.IgnorePresetParticles))
 		globals::menu->MarkUnsavedChanges();
 	Util::AddTooltip(T(TKEY("cs_particles_tip"),
 		"Lights smoke, mist and waterfalls with the weather's own Effect Lighting colour, scaled to follow the preset's direct and ambient lighting intensities, instead of the preset's [PARTICLE] values.\n"
-		"Saved with Community Shaders' Save Settings, not with the preset."));
+		"Saved with Hold Shaders' Save Settings, not with the preset."));
 }
 
 void Effects11Editor::DrawWeatherFileList()

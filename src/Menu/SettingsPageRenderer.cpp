@@ -127,11 +127,11 @@ namespace
 	const char* GetSectionDescription(std::string_view id)
 	{
 		if (id == Ids::kShadersCache)
-			return T("menu.settings.desc_shaders_cache", "Whether Community Shaders replaces the game's shaders, how compiled shaders are cached, and how many threads compile them.");
+			return T("menu.settings.desc_shaders_cache", "Whether Hold Shaders replaces the game's shaders, how compiled shaders are cached, and how many threads compile them.");
 		if (id == Ids::kKeybindings)
 			return T("menu.settings.desc_keybindings", "Keys that open the menu and editors, toggle overlays, take screenshots and drive debugging.");
 		if (id == Ids::kLanguage)
-			return T("menu.settings.desc_language", "The language of the Community Shaders menu.");
+			return T("menu.settings.desc_language", "The language of the Hold Shaders menu.");
 		if (id == Ids::kTheme)
 			return T("menu.settings.desc_theme", "Pick a theme preset, or save the current look as your own theme.");
 		if (id == Ids::kFonts)
@@ -143,11 +143,11 @@ namespace
 		if (id == Ids::kHeaderEffects)
 			return T("menu.settings.desc_header_effects", "The header's icons and layout, the status bar, and effects such as background blur and menu fade.");
 		if (id == Ids::kDeveloper)
-			return T("menu.advanced.desc_developer", "Developer mode, shader compiler flags and build statistics, for working on Community Shaders itself.");
+			return T("menu.advanced.desc_developer", "Developer mode, shader compiler flags and build statistics, for working on Hold Shaders itself.");
 		if (id == Ids::kLogging)
-			return T("menu.advanced.desc_logging", "How much goes into BottledShaders.log, extra shader defines, and quick access to the logs.");
+			return T("menu.advanced.desc_logging", "How much goes into HoldShaders.log, extra shader defines, and quick access to the logs.");
 		if (id == Ids::kShaderDebug)
-			return T("menu.advanced.desc_shader_debug", "Choose which game shaders Community Shaders replaces, to compare against vanilla or isolate a problem.");
+			return T("menu.advanced.desc_shader_debug", "Choose which game shaders Hold Shaders replaces, to compare against vanilla or isolate a problem.");
 		if (id == Ids::kActiveShaders)
 			return T("menu.advanced.desc_active_shaders", "Shaders drawn in the last second. Click a row to block that shader, right-click to copy its details.");
 		if (id == Ids::kTesting)

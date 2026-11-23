@@ -972,9 +972,9 @@ void ThemeManager::CreateDefaultThemeFiles()
 	auto defaultThemeFile = themesDir / "Default.json";
 	constexpr std::string_view defaultTheme = R"({
 	"DisplayName": "Default Theme",
-	"Description": "Default Bottled Shaders theme",
+	"Description": "Default Hold Shaders theme",
 	"Version": "1.0",
-	"Author": "Bottled Shaders",
+	"Author": "Hold Shaders",
 	"Theme": {
 		"UseSimplePalette": true,
 		"Palette": {

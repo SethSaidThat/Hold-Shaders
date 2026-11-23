@@ -43,17 +43,19 @@ namespace
 
 			const float fontSize = ImGui::GetFontSize();
 			const float logoHeight = fontSize * kLogoHeightRatio;
-			const float logoWidth = logoHeight * Util::Icons::kBottleAspect;
+			const float logoWidth = logoHeight * Util::Icons::kHoldMarkAspect;
 			const float gap = fontSize * kLogoTextGapRatio;
 			const float rowHeight = ImMax(logoHeight, ImGui::GetTextLineHeight());
 
-			Util::Icons::DrawBottle(ImGui::GetWindowDrawList(),
+			Util::Icons::DrawHoldMark(ImGui::GetWindowDrawList(),
 				ImVec2(origin.x, origin.y + (rowHeight - logoHeight) * 0.5f),
 				logoHeight,
 				ImGui::GetColorU32(ImGuiCol_Text));
 
 			ImGui::SetCursorScreenPos(ImVec2(origin.x + logoWidth + gap, origin.y + (rowHeight - ImGui::GetTextLineHeight()) * 0.5f));
 			ImGui::TextUnformatted(title.c_str());
+			if (auto _tt = Util::HoverTooltipWrapper())
+				ImGui::TextUnformatted(Plugin::CREDITS.data(), Plugin::CREDITS.data() + Plugin::CREDITS.size());
 
 			metrics = { logoWidth + gap + ImGui::CalcTextSize(title.c_str()).x, rowHeight };
 		}

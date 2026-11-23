@@ -236,9 +236,9 @@ void AdvancedSettingsRenderer::RenderLoggingSection()
 		{ T("menu.advanced.log_level_trace", "Trace"), T("menu.advanced.log_level_trace_tooltip", "Everything, down to per-frame detail. Logs grow quickly and the game may slow down. Also turns on Developer Mode.") },
 		{ T("menu.advanced.log_level_debug", "Debug"), T("menu.advanced.log_level_debug_tooltip", "Extra detail for tracking down a problem. Also turns on Developer Mode.") },
 		{ T("menu.advanced.log_level_info", "Info"), T("menu.advanced.log_level_info_tooltip", "Normal startup and status messages, plus everything below. The default.") },
-		{ T("menu.advanced.log_level_warn", "Warn"), T("menu.advanced.log_level_warn_tooltip", "Problems Bottled Shaders worked around, plus errors.") },
+		{ T("menu.advanced.log_level_warn", "Warn"), T("menu.advanced.log_level_warn_tooltip", "Problems Hold Shaders worked around, plus errors.") },
 		{ T("menu.advanced.log_level_err", "Error"), T("menu.advanced.log_level_err_tooltip", "Only failures, such as a shader that did not compile.") },
-		{ T("menu.advanced.log_level_critical", "Critical"), T("menu.advanced.log_level_critical_tooltip", "Only failures that stop Bottled Shaders from working.") },
+		{ T("menu.advanced.log_level_critical", "Critical"), T("menu.advanced.log_level_critical_tooltip", "Only failures that stop Hold Shaders from working.") },
 		{ T("menu.advanced.log_level_off", "Off"), T("menu.advanced.log_level_off_tooltip", "Nothing is written to the log.") },
 	};
 	const int currentLevel = std::clamp(static_cast<int>(logLevel), 0, static_cast<int>(std::size(levels)) - 1);

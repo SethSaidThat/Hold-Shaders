@@ -1,0 +1,35 @@
+{
+  "_metadata": {
+    "version": "0.1.0",
+    "description": "Look B (picked by Seth 23 Nov 2026): exposure -0.5 EV, highlights down 8%, chroma +10%, vibrance +5%, contrast +6%, a touch warmer (6300 K)."
+  },
+  "Color Grading and Tone Mapping": {
+    "enabled": true,
+    "settings": {
+      "exposureTemperatureTint": [
+        0.7071,
+        63.0,
+        0.0,
+        0.0
+      ],
+      "highlightsGain": [
+        0.92,
+        0.92,
+        0.92,
+        0.0
+      ],
+      "oklchSaturation": [
+        1.1,
+        1.05,
+        0.0,
+        0.0
+      ],
+      "contrast": [
+        1.06,
+        1.06,
+        1.06,
+        0.0
+      ]
+    }
+  }
+}

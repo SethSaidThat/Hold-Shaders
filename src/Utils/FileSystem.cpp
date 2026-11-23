@@ -323,7 +323,7 @@ namespace Util
 			if (!path) {
 				return {};
 			}
-			*path /= "BottledShaders.log";
+			*path /= "HoldShaders.log";
 			return *path;
 		}
 	}

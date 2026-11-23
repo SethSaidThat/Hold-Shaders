@@ -73,7 +73,7 @@ namespace
 		switch (layer) {
 		case Layer::Base:
 			return T(TKEY("layer_base_tooltip"),
-				"The feature's own settings, the same as its page in the Bottled Shaders menu. Edited in Base Settings.");
+				"The feature's own settings, the same as its page in the Hold Shaders menu. Edited in Base Settings.");
 		case Layer::TimeOfDay:
 			return T(TKEY("layer_time_of_day_tooltip"), "Overrides for each period of the day outdoors. Edited on the Scene Manager page.");
 		case Layer::Interior:
@@ -379,10 +379,10 @@ namespace
 			return;
 
 		bool handedOff = effects11.IsHandedOff(*feature);
-		if (ImGui::Checkbox(T(TKEY("e11_handoff"), "Control with Bottled Shaders"), &handedOff))
+		if (ImGui::Checkbox(T(TKEY("e11_handoff"), "Control with Hold Shaders"), &handedOff))
 			UnifiedPresetCatalog::GetSingleton().SetSceneControl(*feature, handedOff);
 		Util::AddTooltip(T(TKEY("e11_handoff_tooltip"),
-			"Effects 11 replaces this feature. Turn on to drive it from its Bottled Shaders settings and scene layers instead. "
+			"Effects 11 replaces this feature. Turn on to drive it from its Hold Shaders settings and scene layers instead. "
 			"Remembered for the active preset, and written by Effects 11 exports."));
 	}
 }

@@ -55,12 +55,12 @@ void SetupRenderer::RenderFirstTimeSetupDialog()
 		const ImVec2 windowPos = ImGui::GetWindowPos();
 		const ImVec2 windowSize = ImGui::GetWindowSize();
 		const float logoHeight = LOGO_WATERMARK_HEIGHT * uiScale;
-		const float logoWidth = logoHeight * Util::Icons::kBottleAspect;
+		const float logoWidth = logoHeight * Util::Icons::kHoldMarkAspect;
 
 		ImVec4 watermarkColor = menu->GetSettings().Theme.Palette.Text;
 		watermarkColor.w = WATERMARK_ALPHA;
 
-		Util::Icons::DrawBottle(ImGui::GetWindowDrawList(),
+		Util::Icons::DrawHoldMark(ImGui::GetWindowDrawList(),
 			ImVec2(windowPos.x + (windowSize.x - logoWidth) * 0.5f, windowPos.y + (windowSize.y - logoHeight) * 0.5f),
 			logoHeight,
 			ImGui::GetColorU32(watermarkColor));
@@ -77,7 +77,7 @@ void SetupRenderer::RenderFirstTimeSetupDialog()
 
 	// Version text - two lines, both centered (reduced spacing between lines)
 	const char* versionLine1 = T("menu.setup.new_install_line1", "This appears to be a new install, update, or");
-	const char* versionLine2 = T("menu.setup.new_install_line2", "reinstallation of Bottled Shaders.");
+	const char* versionLine2 = T("menu.setup.new_install_line2", "reinstallation of Hold Shaders.");
 
 	centerText(versionLine1);
 	ImGui::Text("%s", versionLine1);

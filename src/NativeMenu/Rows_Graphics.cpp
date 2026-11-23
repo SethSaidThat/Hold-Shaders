@@ -38,13 +38,13 @@ namespace NativeMenu
 	std::vector<Row> GraphicsRows()
 	{
 		std::vector<Row> rows{
-			NATIVE_MENU_HEADING(T(TKEY("heading"), "Bottled Shaders")),
+			NATIVE_MENU_HEADING(T(TKEY("heading"), "Hold Shaders")),
 
-			Button(T(TKEY("open_menu"), "Open Bottled Shaders Menu"), &OpenCommunityShadersMenu,
-				T(TKEY("open_menu_desc"), "Opens the full Bottled Shaders settings window.")),
+			Button(T(TKEY("open_menu"), "Open Hold Shaders Menu"), &OpenCommunityShadersMenu,
+				T(TKEY("open_menu_desc"), "Opens the full Hold Shaders settings window.")),
 
 			Button(T(TKEY("hotkey"), "Menu Hotkey"), &RebindMenuHotkey,
-				T(TKEY("hotkey_desc"), "Select this, then press the key or combo that opens the Bottled Shaders menu."),
+				T(TKEY("hotkey_desc"), "Select this, then press the key or combo that opens the Hold Shaders menu."),
 				nullptr, &GetMenuHotkeyText),
 		};
 

@@ -1077,7 +1077,7 @@ void SettingsTabRenderer::RenderLanguageSection()
 										  "Only {percent}% of the interface is translated in this language; the rest stays in English.")
 									  .c_str());
 	}
-	Util::HoverTip(T("menu.settings.language_tooltip", "Select the display language for the Bottled Shaders interface."));
+	Util::HoverTip(T("menu.settings.language_tooltip", "Select the display language for the Hold Shaders interface."));
 }
 
 void SettingsTabRenderer::RenderInterfaceOptions()

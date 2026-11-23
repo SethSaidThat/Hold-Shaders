@@ -42,7 +42,7 @@ struct HorizonFix : Feature
 	/** @brief The subtitle under the feature's name in the settings header; no key features. */
 	virtual std::pair<std::string, std::vector<std::string>> GetFeatureSummary() override
 	{
-		return { T("feature.horizon_fix.description", "Community Shaders integration feature for Horizon Fix"), {} };
+		return { T("feature.horizon_fix.description", "Hold Shaders integration feature for Horizon Fix"), {} };
 	}
 
 	virtual void DrawSettings() override;

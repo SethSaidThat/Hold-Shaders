@@ -158,8 +158,8 @@ namespace
 	{
 		ImGui::Dummy(ImVec2(size, size));
 		const ImVec2 min = ImGui::GetItemRectMin();
-		const float width = size * Util::Icons::kBottleAspect;
-		Util::Icons::DrawBottle(ImGui::GetWindowDrawList(), ImVec2(min.x + (size - width) * 0.5f, min.y), size, ImGui::GetColorU32(ThemeAccent(info)));
+		const float width = size * Util::Icons::kHoldMarkAspect;
+		Util::Icons::DrawHoldMark(ImGui::GetWindowDrawList(), ImVec2(min.x + (size - width) * 0.5f, min.y), size, ImGui::GetColorU32(ThemeAccent(info)));
 	}
 
 	/** @brief Circular translucent arrow button centered on center; returns true when clicked. */

@@ -23,7 +23,7 @@
  *
  * Use the two-argument T() form everywhere in source code:
  *
- *     ImGui::Text("%s", T("menu.home.welcome", "Welcome to Bottled Shaders"));
+ *     ImGui::Text("%s", T("menu.home.welcome", "Welcome to Hold Shaders"));
  *
  * The second argument is the English default. It serves as:
  *   1. The fallback text when no translation file is loaded
@@ -183,7 +183,7 @@ private:
  * Get a translated string. Two usage patterns:
  *
  *   // Preferred: inline default — developer only touches this one file
- *   T("menu.home.welcome", "Welcome to Bottled Shaders")
+ *   T("menu.home.welcome", "Welcome to Hold Shaders")
  *
  *   // Key-only: falls back to en.json, then the key itself
  *   T("menu.home.welcome")

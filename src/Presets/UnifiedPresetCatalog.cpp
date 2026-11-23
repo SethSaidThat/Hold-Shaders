@@ -37,6 +37,8 @@ namespace
 {
 	/// Where older builds kept the active pack state, read once if SettingsUser.json has none yet.
 	constexpr const char* kLegacyActiveStateFileName = "_active.json";
+	/// Hold Shaders: the Baseline pack that is on by default on a new install (the Hold Shaders look).
+	constexpr const char* kHoldShadersDefaultPackId = "HoldShaders";
 	/// Matches State::Save, so a state write leaves the file formatted as the user config always is.
 	constexpr int kUserSettingsIndent = 1;
 	constexpr const char* kBaselinePackIdsKey = "baselinePackIds";
@@ -329,8 +331,14 @@ void UnifiedPresetCatalog::LoadActiveState()
 	}
 	if (!state)
 		state = Util::FileHelpers::ReadJsonObject(Util::PathHelpers::GetUnifiedPresetsRealPath() / kLegacyActiveStateFileName, "active pack state");
-	if (!state)
+	if (!state) {
+		// Hold Shaders: nothing saved yet (a new install), so the Hold Shaders look is on by default. Not written to the
+		// user's config here; once the player changes anything in Presets, their own choice is saved and kept.
+		std::error_code ec;
+		if (std::filesystem::is_directory(Util::PathHelpers::GetUnifiedPresetsRealPath() / kHoldShadersDefaultPackId, ec))
+			baselinePackIds.emplace_back(kHoldShadersDefaultPackId);
 		return;
+	}
 	try {
 		if (const auto overrides = state->find(kSceneControlKey); overrides != state->end() && overrides->is_object()) {
 			for (const auto& [packId, choices] : overrides->items())

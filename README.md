@@ -11,12 +11,19 @@
 
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/doodlum/skyrim-community-shaders)
 
-# Bottled Shaders
+# Hold Shaders
 
-SKSE core plugin for community-driven advanced graphics modifications.
+SKSE core plugin for advanced graphics in Skyrim, with the Modhold look as its default: a little darker than stock, softer highlights, slightly richer colour.
 
-[Nexus](https://www.nexusmods.com/skyrimspecialedition/mods/86492)
-[User Wiki](https://modding.wiki/en/skyrim/developers/community-shaders)
+## About this fork
+
+**Hold Shaders is a fork of [Bottled Shaders](https://github.com/InTheBottle/Bottled-Shaders) by Bottle, which is itself a fork of [Community Shaders](https://github.com/community-shaders/skyrim-community-shaders) by doodlum and the Community Shaders contributors.** The architecture, the shader pipeline, the feature framework and nearly all of the code come from those projects and are their authors' work. Their copyrights and authorship are kept unchanged; see the upstream [contributors page](https://github.com/community-shaders/skyrim-community-shaders/graphs/contributors).
+
+- What we changed, and when: [MODIFIED.md](./MODIFIED.md).
+- Licence: the same as upstream, GPL-3.0 with the Modding Exception and the GPL-3.0 Linking Exception (see [COPYING](./COPYING) and [EXCEPTIONS.md](./EXCEPTIONS.md)). The full source of every Hold Shaders build is in this repository.
+- Runtime identity (DLL name, `CommunityShaders` folders and settings files, the exported API) is kept as upstream on purpose, so Hold Shaders is a drop-in replacement and existing settings, presets and add-on features keep working. Install Hold Shaders *or* Community Shaders / Bottled Shaders, not two at once.
+- Neither the Community Shaders logo nor the Bottled Shaders logo is used or shipped; Hold Shaders draws its own mark.
+- Support: please don't ask the Community Shaders or Bottled Shaders teams about Hold Shaders. Ask on its Modhold page instead.
 
 ## Requirements
 

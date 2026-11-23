@@ -122,7 +122,7 @@ namespace
 		if (failed) {
 			ImGui::TextColored(themeSettings.StatusPalette.Error, "%s",
 				I18n::GetSingleton()->Format("overlay.shaders_failed", { { "count", std::to_string(failed) } },
-										"ERROR: {count} shaders failed to compile. Check installation and BottledShaders.log")
+										"ERROR: {count} shaders failed to compile. Check installation and HoldShaders.log")
 					.c_str());
 
 			if (FeatureIssues::HasPotentialShaderModifyingFeatures()) {

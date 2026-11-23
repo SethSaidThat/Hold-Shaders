@@ -152,7 +152,7 @@ size_t BaselineManager::DiscoverDirectory(const std::filesystem::path& directory
 			const auto featureName = ParseBaselineFeatureName(entry.path());
 			if (!Feature::IsFeatureKnown(featureName)) {
 				logger::warn("Baseline file {} targets '{}', which is not a feature in this build; skipping", Util::PathHelpers::ToUtf8(entry.path()), featureName);
-				ReportFailure(packId, featureName, "Feature is not part of this Bottled Shaders build", entry.path());
+				ReportFailure(packId, featureName, "Feature is not part of this Hold Shaders build", entry.path());
 				continue;
 			}
 

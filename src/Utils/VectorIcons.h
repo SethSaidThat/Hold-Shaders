@@ -39,6 +39,19 @@ namespace Util::Icons
 	 */
 	void DrawBottle(ImDrawList* drawList, const ImVec2& topLeft, float height, ImU32 color, float thickness = 0.0f);
 
+	/** @brief Hold Shaders mark width divided by its height (a diamond). */
+	inline constexpr float kHoldMarkAspect = 0.8f;
+
+	/**
+	 * @brief Draws the Hold Shaders mark as line art: an outer diamond with a small diamond inside.
+	 * @param drawList Target draw list.
+	 * @param topLeft Top-left corner of the mark's bounding box.
+	 * @param height Mark height in pixels; width follows from kHoldMarkAspect.
+	 * @param color Stroke colour.
+	 * @param thickness Stroke width; <= 0 picks a width proportional to height.
+	 */
+	void DrawHoldMark(ImDrawList* drawList, const ImVec2& topLeft, float height, ImU32 color, float thickness = 0.0f);
+
 	/**
 	 * @brief Draws one of the line-art action icons inside a square box.
 	 * @param drawList Target draw list.

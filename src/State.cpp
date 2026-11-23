@@ -682,8 +682,8 @@ void State::Load(bool a_allowReload)
 				}
 			} catch (const std::exception& e) {
 				feature->failedLoadedMessage = feature->failedLoadedMessage.empty() ?
-				                                   (feature->GetName() + " failed to load. Check BottledShaders.log") :
-				                                   (feature->failedLoadedMessage + "\n" + feature->GetName() + " failed to load. Check BottledShaders.log");
+				                                   (feature->GetName() + " failed to load. Check HoldShaders.log") :
+				                                   (feature->failedLoadedMessage + "\n" + feature->GetName() + " failed to load. Check HoldShaders.log");
 				logger::warn("Error loading setting for feature '{}': {}", feature->GetShortName(), e.what());
 			}
 		}

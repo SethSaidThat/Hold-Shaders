@@ -1223,7 +1223,7 @@ find_program(
 )
 # mx5 keeps the AIO well under Discord's 100 MB upload limit; mx1 is ~30 MB larger.
 set(SEVENZ_AIO_ARGS a -t7z -mx5 -mmt=on)
-set(AIO_ARCHIVE_NAME "BottledShaders_AIO")
+set(AIO_ARCHIVE_NAME "HoldShaders_AIO")
 set(PACK_PATHS "${CMAKE_SOURCE_DIR}/packs/Detail Maps Pack")
 
 # Zip base CommunityShaders and all addons as their own zip in dist folder
@@ -1568,7 +1568,7 @@ endif()
 add_custom_target("Package-AIO-Manual" DEPENDS ${AIO_PACKAGE})
 
 message("*************************************************************")
-message("Bottled Shaders configuration complete")
+message("Hold Shaders configuration complete")
 message("To prepare a package of AIO (.7z when 7-Zip is found), Core, or Features")
 message("  Build cmake targets:")
 message("    - Package-Core: Core package")

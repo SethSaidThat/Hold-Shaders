@@ -277,7 +277,7 @@ void ProfilingRenderer::RenderPage()
 	auto& timingsCard = cards[static_cast<size_t>(Tab::PassTimings)];
 	timingsCard.icon = ICON_TI_CLOCK;
 	timingsCard.title = T("menu.profiling.timings_tab", "Pass Timings");
-	timingsCard.description = T("menu.profiling.timings_blurb", "GPU and CPU time of every Community Shaders render pass.");
+	timingsCard.description = T("menu.profiling.timings_blurb", "GPU and CPU time of every Hold Shaders render pass.");
 	std::string timingsGpu;
 	std::string timingsCpu;
 	if (profiler.GetResults().empty()) {

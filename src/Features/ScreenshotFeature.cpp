@@ -1045,7 +1045,7 @@ void ScreenshotFeature::ScreenshotWorkerLoop()
 			}
 
 			if (!saveOk) {
-				ShowInGameNotification("Screenshot failed - see BottledShaders.log");
+				ShowInGameNotification("Screenshot failed - see HoldShaders.log");
 			} else {
 				logger::info("Saved screenshot to {}", PathToUtf8(screenshot.outputPath));
 				ShowInGameNotification(std::format("Screenshot saved: {}",
@@ -1053,7 +1053,7 @@ void ScreenshotFeature::ScreenshotWorkerLoop()
 			}
 		} catch (const std::exception& e) {
 			logger::error("Screenshot save failed: {}", e.what());
-			ShowInGameNotification("Screenshot failed - see BottledShaders.log");
+			ShowInGameNotification("Screenshot failed - see HoldShaders.log");
 		}
 	}
 	CoUninitialize();

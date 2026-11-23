@@ -142,14 +142,14 @@ namespace PresetCompatibility
 		if (warning.versionGap == VersionGap::Major) {
 			warning.versionMessage = i18n->Format("menu.presets.compat_cs_major",
 				{ { "required", required }, { "current", CurrentCsVersionString() } },
-				"Made for Bottled Shaders {required}. This build ({current}) is a major version behind and may not work correctly.");
+				"Made for Hold Shaders {required}. This build ({current}) is a major version behind and may not work correctly.");
 			warning.versionMessageCompact = i18n->Format("menu.presets.compat_cs_major_short",
 				{ { "required", required } },
-				"Needs Bottled Shaders {required}+");
+				"Needs Hold Shaders {required}+");
 		} else if (warning.versionGap == VersionGap::Minor) {
 			warning.versionMessage = i18n->Format("menu.presets.compat_cs_minor",
 				{ { "required", required }, { "current", CurrentCsVersionString() } },
-				"Made for Bottled Shaders {required}. This build ({current}) is slightly older.");
+				"Made for Hold Shaders {required}. This build ({current}) is slightly older.");
 			warning.versionMessageCompact = i18n->Format("menu.presets.compat_cs_minor_short",
 				{ { "required", required } },
 				"Made for CS {required}");

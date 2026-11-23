@@ -438,14 +438,14 @@ namespace
 			ImGuiChildFlags_Borders | ImGuiChildFlags_AutoResizeY);
 		ImGui::TextUnformatted(T(TKEY("scene_export_compat"), "Compatibility"));
 		Util::AddTooltip(T(TKEY("scene_export_compat_tooltip"),
-			"Records which Bottled Shaders build, features and plugins this pack expects. The Presets browser warns when they do not match."));
+			"Records which Hold Shaders build, features and plugins this pack expects. The Presets browser warns when they do not match."));
 
 		ImGui::TextUnformatted(T(TKEY("scene_export_cs_version"), "CS version"));
 		ImGui::SetNextItemWidth(-1);
 		ImGui::InputTextWithHint("##ScenePresetExportCsVersion",
 			T(TKEY("scene_export_cs_version_hint"), "e.g. 0.8.0"), &form.csVersion);
 		Util::AddTooltip(T(TKEY("scene_export_cs_version_tooltip"),
-			"Bottled Shaders version this pack was made with. Defaults to your current build."));
+			"Hold Shaders version this pack was made with. Defaults to your current build."));
 
 		ImGui::TextUnformatted(T(TKEY("scene_export_features"), "Required features"));
 		const float listHeight = ImGui::GetTextLineHeightWithSpacing() * 5.5f + ImGui::GetStyle().FramePadding.y * 2.0f;

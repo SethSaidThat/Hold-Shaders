@@ -27,10 +27,10 @@ struct DeveloperTools : Feature
 	bool IsCore() const override { return true; }
 	std::pair<std::string, std::vector<std::string>> GetFeatureSummary() override
 	{
-		return { T("feature.developer_tools.description", "Graphics debugging and profiling tools for Bottled Shaders development."),
+		return { T("feature.developer_tools.description", "Graphics debugging and profiling tools for Hold Shaders development."),
 			{ T("feature.developer_tools.key_feature_1", "RenderDoc frame capture with automatic capture comments"),
 				T("feature.developer_tools.key_feature_2", "Nsight Perf GPU counters per render pass (NVIDIA)"),
-				T("feature.developer_tools.key_feature_3", "devbench bridge for driving Bottled Shaders over MCP and REST") } };
+				T("feature.developer_tools.key_feature_3", "devbench bridge for driving Hold Shaders over MCP and REST") } };
 	}
 
 	void Load() override;

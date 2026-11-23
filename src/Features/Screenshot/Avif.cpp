@@ -119,6 +119,6 @@ bool Screenshot::SaveHdrAvif(const DirectX::Image& source, const std::filesystem
 		std::filesystem::remove(outputPath, ec);
 		return false;
 	}
-	logger::info("Bottled Shaders HDR AVIF: libavif {}, AOM, {}-bit lossless 4:4:4", avifVersion(), depth);
+	logger::info("Hold Shaders HDR AVIF: libavif {}, AOM, {}-bit lossless 4:4:4", avifVersion(), depth);
 	return true;
 }

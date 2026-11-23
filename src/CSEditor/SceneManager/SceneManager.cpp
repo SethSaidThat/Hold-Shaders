@@ -473,7 +473,7 @@ std::pair<std::string, std::vector<std::string>> SceneManager::GetFeatureSummary
 {
 	return {
 		T("feature.scene_manager.description",
-			"Applies selected Bottled Shaders settings by interior, time of day, weather, and location."),
+			"Applies selected Hold Shaders settings by interior, time of day, weather, and location."),
 		{
 			T("feature.scene_manager.key_feature_1", "Blends exterior settings across time of day and weather transitions"),
 			T("feature.scene_manager.key_feature_2", "Applies interior settings separately from exterior settings"),

@@ -73,7 +73,7 @@ std::vector<Feature::SettingSearchEntry> DeveloperTools::GetSettingsSearchEntrie
 	if (renderDoc.enableRenderDocCapture && renderDoc.IsAvailable())
 		entries.push_back({ "capture_frames", T("feature.renderdoc.capture_frames", "Capture Frames"), "RenderDoc Capture Frames", select(Tool::RenderDoc) });
 	entries.push_back({ "nsight", T(TKEY("nsight"), "Nsight Perf"), "NvPerf GPU counters", select(Tool::NsightPerf) });
-	entries.push_back({ "devbench", T(TKEY("devbench"), "devbench"), T(TKEY("devbench_blurb"), "Drive Community Shaders from AI assistants over MCP and REST."), select(Tool::DevBench) });
+	entries.push_back({ "devbench", T(TKEY("devbench"), "devbench"), T(TKEY("devbench_blurb"), "Drive Hold Shaders from AI assistants over MCP and REST."), select(Tool::DevBench) });
 	return entries;
 }
 
@@ -88,7 +88,7 @@ void DeveloperTools::DrawSettings()
 	auto& renderDoc = globals::features::renderDoc;
 	auto& remoteControl = globals::features::remoteControl;
 
-	ImGui::TextWrapped("%s", T(TKEY("intro"), "Tools for capturing, profiling and remotely driving Bottled Shaders. Pick a tool to open its settings."));
+	ImGui::TextWrapped("%s", T(TKEY("intro"), "Tools for capturing, profiling and remotely driving Hold Shaders. Pick a tool to open its settings."));
 	ImGui::Spacing();
 
 	// RenderDoc: the status line's action moves it to the next state, or captures once it is running
@@ -155,7 +155,7 @@ void DeveloperTools::DrawSettings()
 	auto& devbenchCard = cards[static_cast<size_t>(Tool::DevBench)];
 	devbenchCard.icon = ICON_TI_ROBOT;
 	devbenchCard.title = T(TKEY("devbench"), "devbench");
-	devbenchCard.description = T(TKEY("devbench_blurb"), "Drive Bottled Shaders from AI assistants over MCP and REST.");
+	devbenchCard.description = T(TKEY("devbench_blurb"), "Drive Hold Shaders from AI assistants over MCP and REST.");
 	const bool devbenchPresent = RemoteControl::IsDevBenchHostPresent();
 	const int devbenchPort = devbenchPresent ? RemoteControl::GetDevBenchPort() : 0;
 	const std::string devbenchConnected = devbenchPort > 0 ?

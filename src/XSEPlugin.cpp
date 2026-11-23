@@ -28,7 +28,7 @@ void InitializeLog([[maybe_unused]] spdlog::level::level_enum a_level = spdlog::
 		util::report_and_fail("Failed to find standard logging directory"sv);
 	}
 
-	*path /= "BottledShaders.log"sv;
+	*path /= "HoldShaders.log"sv;
 	auto sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(path->string(), true);
 #endif
 
@@ -61,6 +61,7 @@ extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Load(const SKSE::LoadInterface* a_s
 		Plugin::BUILD_DESCRIBE,
 		Plugin::BUILD_HASH.empty() ? "unknown" : Plugin::BUILD_HASH,
 		Plugin::BUILD_DIRTY ? " (dirty)" : "");
+	logger::info("{}", Plugin::CREDITS);
 	SKSE::AllocTrampoline(1 << 10);
 	return Load();
 }

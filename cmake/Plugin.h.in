@@ -20,7 +20,13 @@ namespace Plugin
 	inline constexpr auto NAME = "@PROJECT_NAME@"sv;
 
 	/// Product name shown to users. Branding only; never use it to build a path.
-	inline constexpr auto DISPLAY_NAME = "Bottled Shaders"sv;
+	inline constexpr auto DISPLAY_NAME = "Hold Shaders"sv;
+
+	/// Credits shown in the menu and kept in the DLL (GPL-3.0: copyright and authorship of the upstream work are preserved).
+	inline constexpr auto CREDITS =
+		"Hold Shaders is a fork of Bottled Shaders by Bottle, which is a fork of Community Shaders "
+		"by doodlum and the Community Shaders contributors. Their code and copyrights are kept. "
+		"GPL-3.0 with the Modding and Linking Exceptions. Changes by SethSaidThat for Modhold."sv;
 
 	/// Full git describe string, e.g. "v1.4.11", "v1.4.11-3-gabcdef1", "v1.4.11-3-gabcdef1-dirty".
 	/// Matches "v{VERSION}" exactly on a clean tagged release build.

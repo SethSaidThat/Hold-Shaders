@@ -177,6 +177,27 @@ namespace Util::Icons
 		}
 	}
 
+	void DrawHoldMark(ImDrawList* drawList, const ImVec2& topLeft, float height, ImU32 color, float thickness)
+	{
+		if (!drawList || height <= 0.0f)
+			return;
+
+		const float stroke = ResolveThickness(thickness, height, kBottleStrokeRatio);
+		const float width = height * kHoldMarkAspect;
+		const ImVec2 c(topLeft.x + width * 0.5f, topLeft.y + height * 0.5f);
+
+		const std::array<ImVec2, 4> outer = { {
+			ImVec2(c.x, topLeft.y), ImVec2(topLeft.x + width, c.y), ImVec2(c.x, topLeft.y + height), ImVec2(topLeft.x, c.y),
+		} };
+		StrokePolyline(drawList, outer.data(), static_cast<int>(outer.size()), color, stroke, true);
+
+		const float iw = width * 0.22f, ih = height * 0.22f;
+		const std::array<ImVec2, 4> inner = { {
+			ImVec2(c.x, c.y - ih), ImVec2(c.x + iw, c.y), ImVec2(c.x, c.y + ih), ImVec2(c.x - iw, c.y),
+		} };
+		drawList->AddConvexPolyFilled(inner.data(), static_cast<int>(inner.size()), color);
+	}
+
 	void Draw(ImDrawList* drawList, Kind kind, const ImVec2& topLeft, float size, ImU32 color, float thickness)
 	{
 		if (!drawList || size <= 0.0f || kind == Kind::None)

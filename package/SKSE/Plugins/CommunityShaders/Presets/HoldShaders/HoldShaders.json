@@ -1,0 +1,11 @@
+{
+  "name": "Hold Shaders",
+  "version": "0.1.0",
+  "author": "SethSaidThat",
+  "type": "Baseline",
+  "csVersion": "2.0.0",
+  "description": "The Hold Shaders look: a little darker than stock, with softer highlights and slightly richer colour. Still vibrant, just not as bright.",
+  "requiredFeatures": [
+    "PostProcessing"
+  ]
+}
