@@ -53,7 +53,7 @@ Each feature can be turned on or off in the menu.
 - [Address Library for SKSE Plugins](https://www.nexusmods.com/skyrimspecialedition/mods/32444)
 - [SSE Engine Fixes](https://modholdmods.com/m/826)
 
-Install only one of Hold Shaders, Bottled Shaders or Community Shaders. On Linux (Proton), Hold Shaders needs Microsoft's shader compiler (d3dcompiler_47), because Proton's own one can't build its shaders; the Modhold app (1.1.37 or newer) sets it up for Skyrim when you pick Hold Shaders.
+Install only one of Hold Shaders, Bottled Shaders or Community Shaders. On Linux (Proton), Hold Shaders needs Microsoft's shader compiler (d3dcompiler_47), because Proton's own one can't build its shaders; the Modhold app (1.1.38 or newer) sets it up for Skyrim when you pick Hold Shaders.
 
 Report problems on the [Modhold page](https://modholdmods.com/m/1522).
 
