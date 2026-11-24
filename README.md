@@ -20,6 +20,10 @@ Skyrim's lighting, shadows, water and colour, with the Hold look: a little darke
   <a href="https://modholdmods.com/m/1522"><img src="https://modholdmods.com/badge/m/1522-dark.png" width="470" height="128" alt="Download Hold Shaders - Graphics Shader Overhaul on Modhold"></a>
 </p>
 
+<p align="center">
+  <a href="https://modholdmods.com/u/SethSaidThat"><img src="https://modholdmods.com/badge/u/SethSaidThat-dark.png" width="438" height="128" alt="SethSaidThat's mods on Modhold"></a>
+</p>
+
 ## Darker indoors, on purpose
 
 Hold Shaders is darker than the stock game, and you notice it most inside. Rooms take their light from their own fires, candles and windows, so a longhouse glows around its hearth while the corners stay in shadow, and a smithy is lit by its forge. Outside in daylight the colours stay rich and the sky stays bright. If a room feels too dark for you, every part of the look can be changed in the menu.
