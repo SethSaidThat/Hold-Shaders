@@ -771,7 +771,15 @@ struct BSInputDeviceManager_PollInputDevices
 			// Hold Shaders: the controller drives the menu and the editors, so like the keyboard and mouse it is kept from the
 			// game while one of them is open. The first-time setup screen does not keep it (A / B / Start finish that screen);
 			// hold.3 kept it there too, which left a controller player unable to do anything until End was pressed.
-			if (*a_events && (*a_events)->GetDevice() == RE::INPUT_DEVICES::INPUT_DEVICE::kGamepad)
+			// Only a batch made of gamepad events alone gets that pass, so keyboard and mouse never slip through with it.
+			bool allGamepad = *a_events != nullptr;
+			for (auto it = *a_events; it; it = it->next) {
+				if (it->GetDevice() != RE::INPUT_DEVICES::INPUT_DEVICE::kGamepad) {
+					allGamepad = false;
+					break;
+				}
+			}
+			if (allGamepad)
 				blockedDevice = menu->ShouldSwallowGamepad();
 		}
 

@@ -639,19 +639,17 @@ namespace SIE
 
 		ShaderFileDependencyTracker* GetDependencyTracker() { return dependencyTracker.get(); }
 
-		// Hold Shaders (23 Nov 2026): the first launch compiles 3,000+ shaders. On every logical thread but two (14 of 16)
-		// it froze a player's whole desktop at the main menu (Explorer closed as hung). Half the logical threads, minus
-		// one, leaves Windows and the game room to breathe; the one-time compile takes longer instead. A player's own
-		// "Compiler Threads" setting still wins.
+		// Hold Shaders (23 Nov 2026): the first launch compiles 3,000+ shaders. A player's desktop froze during a first
+		// launch that compiled on every logical thread but two (14 of 16) while the water cache was also being built;
+		// what ran out was not measured. Half the logical threads, minus one, lowers both the CPU and the memory peak;
+		// the one-time compile takes longer instead. A player's own "Compiler Threads" setting still wins.
 		static int32_t GetDefaultCompilationThreadCount()
 		{
 			const auto threadCount = static_cast<int32_t>(std::thread::hardware_concurrency());
 			return std::max(threadCount / 2 - 1, 1);
 		}
 
-		// Reserve fewer threads on low-core systems to avoid overly slow startup compilation.
 		// Management and file watcher run on dedicated jthreads, not pool slots.
-		// Background (in-game): half of P-cores only, to avoid starving the render thread.
 		int32_t compilationThreadCount = GetDefaultCompilationThreadCount();
 		// Hold Shaders (23 Nov 2026): a quarter of the P-cores (was half): it runs while the player is at the main menu or in game
 		int32_t backgroundCompilationThreadCount = std::max(static_cast<int32_t>(Util::GetPerformanceCoreCount()) / 4, 1);

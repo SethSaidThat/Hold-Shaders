@@ -279,8 +279,9 @@ bool WaterCache::GenerateCaches()
 
 	// Use P-core logical count on Intel hybrid CPUs; falls back to hardware_concurrency() on non-hybrid.
 	// Hold Shaders (23 Nov 2026): this build runs once, at the main menu, while the shader compile may still be going.
-	// On hw - 4 threads at normal priority (12 of 16) it took the desktop with it (Explorer closed as hung right as it
-	// finished). A quarter of the threads, at most 4, below normal priority (each job sets it): a few seconds longer, once.
+	// A player's desktop froze during a first launch where it ran on hw - 4 threads at normal priority (12 of 16) next to
+	// the compile; what ran out was not measured. A quarter of the threads, at most 4, below normal priority (each job
+	// sets it) lowers both the CPU and the memory peak: a few seconds longer, once.
 	const unsigned hw = Util::GetPerformanceCoreCount();
 	const unsigned threads = std::clamp(hw / 4, 1u, 4u);
 	async.pool = std::make_unique<BS::thread_pool<>>(threads);
