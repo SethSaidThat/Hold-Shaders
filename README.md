@@ -10,6 +10,10 @@
 
 Skyrim's lighting, shadows, water and colour, with the Hold look: a little darker than the stock image, with softer highlights and slightly richer colour. Hold Shaders is an SKSE plugin, and every part of the look can be changed in its menu, one feature at a time. It's free, and this repository is its full source.
 
+<p align="center">
+  <a href="https://youtu.be/v792XsgoJ-4"><img src="https://img.youtube.com/vi/v792XsgoJ-4/maxresdefault.jpg" alt="Watch Hold Shaders on YouTube" width="100%"></a>
+</p>
+
 **Download it on Modhold: https://modholdmods.com/m/1522** (or take the files from [Releases](https://github.com/SethSaidThat/Hold-Shaders/releases)). It's also the Shaders choice in Modhold Core, picked instead of the ENB in the Modhold app.
 
 <p align="center">
