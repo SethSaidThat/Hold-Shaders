@@ -309,7 +309,7 @@ struct PerformanceOverlay : OverlayFeature
 		static constexpr int kMinFrameHistorySize = 120;             // 2s @ 60fps, 0.5s @ 240fps
 		static constexpr int kMaxFrameHistorySize = 1800;            // 30s @ 60fps, 7.5s @ 240fps
 
-		bool ShowInOverlay = true;       // was: Enabled
+		bool ShowInOverlay = false;      // was: Enabled. Hold Shaders: hidden until the player opens it (F10 or the menu)
 		bool ShowWeatherPicker = false;  // standalone weather picker window, independent of the overlay above
 		bool ShowDrawCalls = true;
 		bool ShowCSPasses = true;

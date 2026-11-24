@@ -34,3 +34,5 @@ GNU General Public License v3: it says what was changed, by whom, and when.
   shader compile uses half the logical CPU threads minus one (was all but two), background compiling a quarter of the
   performance cores (was half), and the one-time Unified Water cache build a quarter of the threads, at most 4, at
   below-normal priority (was all but four at normal priority). A player's own "Compiler Threads" settings still win.
+- The Performance Overlay (FPS graph, draw calls, frame time) starts hidden on a fresh install (`ShowInOverlay` defaults
+  to false); players open it with the overlay key (F10) or from the menu. A saved choice still wins.
