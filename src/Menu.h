@@ -176,6 +176,9 @@ public:
 	void RecordDirectInputWheelDelta(std::int32_t delta);
 	/** @brief Returns true if the menu should consume all input (menu open or capturing hotkey) */
 	bool ShouldSwallowInput();
+	/** @brief Hold Shaders: true while a window the controller drives is open (the menu or an editor). The first-time
+	 *         setup screen never keeps the controller from the game: A / B / Start (or both sticks) finish it instead. */
+	bool ShouldSwallowGamepad();
 	void RequestOpen();
 	void BeginToggleKeyRebind();
 	void CancelToggleKeyRebind();
@@ -706,6 +709,8 @@ private:
 	bool comboLeftThumbHeld = false;
 	bool comboRightThumbHeld = false;
 	bool comboActive = false;
+	/// Input thread only: the controller button (A / B / Start) that finished the first-time setup, kept from the game until released.
+	std::uint32_t setupDismissKey = 0;
 	/// Set on the input thread by the combo, acted on by ProcessInputEventQueue on the render thread.
 	std::atomic<bool> controllerToggleRequested = false;
 	/// Held time at which a held LB / RB steps the page again.

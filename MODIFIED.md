@@ -36,3 +36,6 @@ GNU General Public License v3: it says what was changed, by whom, and when.
   below-normal priority (was all but four at normal priority). A player's own "Compiler Threads" settings still win.
 - The Performance Overlay (FPS graph, draw calls, frame time) starts hidden on a fresh install (`ShowInOverlay` defaults
   to false); players open it with the overlay key (F10) or from the menu. A saved choice still wins.
+- The first-time setup screen works with a controller: A, B or Start finishes it (the menu key stays End), as do both
+  sticks pressed in, and the screen says so. While it shows, it no longer keeps the controller from the game; only
+  the menu and the editors do (hold.3 kept the controller from the game on that screen too).

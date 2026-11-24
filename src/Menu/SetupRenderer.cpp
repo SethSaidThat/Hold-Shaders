@@ -191,6 +191,11 @@ void SetupRenderer::RenderFirstTimeSetupDialog()
 
 	ImGui::SetWindowFontScale(1.0f);
 
+	// Hold Shaders: a controller finishes this screen too (Menu::CheckControllerToggleCombo)
+	const char* padText = T("menu.setup.press_controller_to_continue", "On a controller: press A to continue (both sticks in opens the menu later)");
+	centerText(padText);
+	ImGui::TextDisabled("%s", padText);
+
 	ImGui::End();
 	ImGui::PopStyleVar();
 }

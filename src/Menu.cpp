@@ -1664,6 +1664,20 @@ bool Menu::CheckControllerToggleCombo(RE::InputEvent* const* a_events)
 		if (!button || button->GetDevice() != RE::INPUT_DEVICE::kGamepad)
 			continue;
 		const auto code = button->GetIDCode();
+		// Hold Shaders: on the first-time setup screen, A, B or Start finishes it (End stays the menu key), as the
+		// toggle key does on a keyboard. That button is kept from the game until it is released.
+		if (code == Key::kA || code == Key::kB || code == Key::kStart) {
+			if (setupDismissKey == 0 && button->IsDown() && SetupRenderer::ShouldShowFirstTimeSetup()) {
+				setupDismissKey = code;
+				controllerToggleRequested = true;  // ToggleFromController finishes the setup while it is shown
+			}
+			if (setupDismissKey == code) {
+				keepFromGame = true;
+				if (!button->IsPressed())
+					setupDismissKey = 0;
+			}
+			continue;
+		}
 		if (code != Key::kLeftThumb && code != Key::kRightThumb)
 			continue;
 		(code == Key::kLeftThumb ? comboLeftThumbHeld : comboRightThumbHeld) = button->IsPressed();
@@ -1706,8 +1720,9 @@ void Menu::ProcessGamepadEvent(const KeyEvent& a_event)
 	if (a_event.eventType == RE::INPUT_EVENT_TYPE::kButton && (a_event.keyCode == Key::kLeftThumb || a_event.keyCode == Key::kRightThumb))
 		return;
 
-	// Everything else only drives an open Hold Shaders window (menu, first-time setup, editors).
-	if (!ShouldSwallowInput())
+	// Everything else only drives an open Hold Shaders window (menu, editors). The first-time setup screen is finished
+	// by A / B / Start or both sticks (CheckControllerToggleCombo) and otherwise leaves the controller to the game.
+	if (!ShouldSwallowGamepad())
 		return;
 
 	if (a_event.eventType == RE::INPUT_EVENT_TYPE::kThumbstick) {
@@ -1844,6 +1859,12 @@ bool Menu::ShouldSwallowInput()
 	auto editorWindow = EditorWindow::GetSingleton();
 	return open || SetupRenderer::ShouldShowFirstTimeSetup() || (editorWindow && editorWindow->open) ||
 	       Effects11Editor::GetSingleton().IsOpen();
+}
+
+bool Menu::ShouldSwallowGamepad()
+{
+	auto editorWindow = EditorWindow::GetSingleton();
+	return open || (editorWindow && editorWindow->open) || Effects11Editor::GetSingleton().IsOpen();
 }
 
 void Menu::RequestOpen()
