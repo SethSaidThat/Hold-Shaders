@@ -63,6 +63,15 @@ Each feature can be turned on or off in the menu.
 
 Install only one of Hold Shaders, Bottled Shaders or Community Shaders. On Linux (Proton), Hold Shaders needs Microsoft's shader compiler (d3dcompiler_47), because Proton's own one can't build its shaders; the Modhold app (1.1.38 or newer) sets it up for Skyrim when you pick Hold Shaders.
 
+### Not using Modhold Core?
+
+Hold Shaders works on its own too. Modhold Core sorts these out for you; on your own setup, check them before the first launch:
+
+- If you've ever used an ENB, take it out first: delete `d3d11.dll` and `d3dcompiler_46e.dll` from your Skyrim folder (next to `SkyrimSE.exe`). Hold Shaders and ENB can't run together.
+- Remove Community Shaders or Bottled Shaders if you have either. Hold Shaders replaces them and uses the same file names, so two of them overwrite each other.
+- Tested on Skyrim 1.5.97 and 1.7.104.
+- If the game crashes at launch, post your newest crash log (`Documents\My Games\Skyrim Special Edition\SKSE\crash-....log`) and `HoldShaders.log` from that same folder on the [Hold Shaders page](https://modholdmods.com/m/1522) (Talk tab), with your Skyrim version.
+
 Report problems on the [Modhold page](https://modholdmods.com/m/1522).
 
 ## About this fork
