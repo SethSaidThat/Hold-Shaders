@@ -1,6 +1,61 @@
+<p align="center">
+  <a href="https://modholdmods.com/m/1522"><img src="https://modholdmods.com/media/desc/2/6d8220b3d90cdc5f.webp" alt="Hold Shaders" width="100%"></a>
+</p>
+
+<p align="center">
+  <a href="https://modholdmods.com/m/1522"><img src="https://modholdmods.com/badge/modhold-dark.png" width="236" height="60" alt="Download on Modhold"></a>
+</p>
+
 # Hold Shaders
 
-SKSE core plugin for advanced graphics in Skyrim, with the Modhold look as its default: a little darker than stock, softer highlights, slightly richer colour.
+Skyrim's lighting, shadows, water and colour, with the Hold look: a little darker than the stock image, with softer highlights and slightly richer colour. Hold Shaders is an SKSE plugin, and every part of the look can be changed in its menu, one feature at a time. It's free, and this repository is its full source.
+
+**Download it on Modhold: https://modholdmods.com/m/1522** (or take the files from [Releases](https://github.com/SethSaidThat/Hold-Shaders/releases)). It's also the Shaders choice in Modhold Core, picked instead of the ENB in the Modhold app.
+
+<p align="center">
+  <a href="https://modholdmods.com/m/1522"><img src="https://modholdmods.com/badge/m/1522-dark.png" width="470" height="128" alt="Download Hold Shaders - Graphics Shader Overhaul on Modhold"></a>
+</p>
+
+## Darker indoors, on purpose
+
+Hold Shaders is darker than the stock game, and you notice it most inside. Rooms take their light from their own fires, candles and windows, so a longhouse glows around its hearth while the corners stay in shadow, and a smithy is lit by its forge. Outside in daylight the colours stay rich and the sky stays bright. If a room feels too dark for you, every part of the look can be changed in the menu.
+
+<p align="center">
+  <img src="https://modholdmods.com/media/1522/d0f1ab89d223b186.webp" width="49%" alt="Riverwood under the mountain at midday">
+  <img src="https://modholdmods.com/media/1522/70ac6df7a4facc51.webp" width="49%" alt="The mill wheel">
+  <img src="https://modholdmods.com/media/1522/9826822169a7be93.webp" width="49%" alt="Alvor's forge, lit by its own fire">
+  <img src="https://modholdmods.com/media/1522/61e111aa9a1c68c5.webp" width="49%" alt="An inn's hearth up close">
+</p>
+
+## What's in it
+
+Each feature can be turned on or off in the menu.
+
+- **Light:** more lights at once (Light Limit Fix), screen space global illumination, image based lighting, skylighting and volumetric shadows.
+- **Shadows:** screen space shadows, terrain shadows, cloud shadows and capsule shadows under characters.
+- **Water and weather:** water effects, wetness on surfaces when it rains, rain refraction, rainbows, procedural lightning and heat haze.
+- **Ground and plants:** grass lighting and collision, snow cover and footprints in snow, terrain blending, terrain variation and detail maps, and fixed landscape seams.
+- **Sky:** a physical sky, a procedural night sky and height fog.
+- **Characters:** skin, hair and subsurface scattering, and fur shells.
+- **Camera:** post processing with colour grading, depth of field, lens flare and motion blur, set to the Hold look.
+- **Speed:** upscaling, grass optimizations and HiZ occlusion.
+
+## Using it
+
+- **The menu:** press End on the keyboard, or both sticks in on a controller. The whole menu works with a controller.
+- **First launch:** Hold Shaders builds its shaders and its water data once, with a progress bar. It takes several minutes the first time, and every launch after that is quick.
+- **Welcome screen:** the first launch shows a short welcome screen. Press End, or A on a controller, to continue.
+- **Performance overlay:** frame times and draw calls, hidden until you press F10.
+
+## Requirements
+
+- [SKSE64](https://skse.silverlock.org/)
+- [Address Library for SKSE Plugins](https://www.nexusmods.com/skyrimspecialedition/mods/32444)
+- [SSE Engine Fixes](https://modholdmods.com/m/826)
+
+Install only one of Hold Shaders, Bottled Shaders or Community Shaders. On Linux (Proton), Hold Shaders needs Microsoft's shader compiler (d3dcompiler_47), because Proton's own one can't build its shaders; the Modhold app (1.1.37 or newer) sets it up for Skyrim when you pick Hold Shaders.
+
+Report problems on the [Modhold page](https://modholdmods.com/m/1522).
 
 ## About this fork
 
@@ -12,7 +67,11 @@ SKSE core plugin for advanced graphics in Skyrim, with the Modhold look as its d
 - Neither the Community Shaders logo nor the Bottled Shaders logo is used or shipped; Hold Shaders draws its own mark.
 - Support: please don't ask the Community Shaders or Bottled Shaders teams about Hold Shaders. Ask on its Modhold page instead.
 
-## Requirements
+## Building from source
+
+Everything below is for building the DLL yourself.
+
+### Build requirements
 
 - Any terminal of your choice (e.g., PowerShell)
 - [Visual Studio Community 2026](https://visualstudio.microsoft.com/)
@@ -22,7 +81,7 @@ SKSE core plugin for advanced graphics in Skyrim, with the Modhold look as its d
 - [Git](https://git-scm.com/downloads)
     - Edit the `PATH` environment variable and add the Git.exe install path as a new value
 
-## Optional Requirements
+### Optional build requirements
 
 ```
 CMake & Vcpkg comes with Visual Studio in Developer Command Prompts already.
@@ -38,12 +97,6 @@ Install them manually only if you want them in everywhere.
     - Install vcpkg using the directions in vcpkg's [Quick Start Guide](https://github.com/microsoft/vcpkg#quick-start-windows)
     - After install, add a new environment variable named `VCPKG_ROOT` with the value as the path to the folder containing vcpkg
     - Make sure your local vcpkg repo matches the commit id specified in `builtin-baseline` in `vcpkg.json` otherwise you might get another version of a non pinned vcpkg dependency causing undefined behaviour
-
-## User Requirements
-
-- [Address Library for SKSE](https://www.nexusmods.com/skyrimspecialedition/mods/32444)
-    - Needed for SSE/AE
-- [SSE Engine Fixes](https://www.nexusmods.com/skyrimspecialedition/mods/17230)
 
 ## Build Instructions
 
